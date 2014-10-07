@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.LinkedList;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -12,9 +13,12 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.ListModel;
+import javax.swing.event.ListDataListener;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
+import Model.PlayList;
 import Model.Song;
 import Model.SongCollection;
 
@@ -29,10 +33,14 @@ public class GUI extends JFrame {
 	private JTable jTable;
 	private JButton addButton;
 	private SongCollection songCollection;
+	private PlayList playList;
+	private LinkedList<ListDataListener> listDataListeners;
+	
 	//private Player player;
 
 	public GUI() {
-
+		listDataListeners = new LinkedList<ListDataListener>();
+		playList = new PlayList();
 		songCollection = new SongCollection();
 		//player = new Player();
 		jTable = new JTable(songCollection);
@@ -58,7 +66,7 @@ public class GUI extends JFrame {
 		// right side
 		
 		
-		songList = new JList<Song>();
+		songList = new JList<Song>(playList);
 		JPanel right = new JPanel();
 		right.setLayout(new BorderLayout());
 
@@ -82,23 +90,23 @@ public class GUI extends JFrame {
 
 	}
 
-	private class PlaySongListener implements ActionListener {
-		@Override
-		public void actionPerformed(ActionEvent ae) {
-			
-		}
-	}
 	private class AddSongListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent ae) {
+			Song temp = songCollection.getElementAt(jTable.getSelectedRow());
 			
-		}
+			playList.add(temp);
+			
+			
+			}
 	}
+//
+//	@Override
+//	public Song getElementAt(int index) {
+//		return playListDisplay.get(index);
+//	}
+//
 
-	private class StopSongListener implements ActionListener {
-		@Override
-		public void actionPerformed(ActionEvent ae) {
-			
-		}
-	}
+
+
 }

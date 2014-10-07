@@ -17,7 +17,7 @@ import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
 
-public class SongCollection implements TableModel, ListModel<Song> {
+public class SongCollection implements TableModel {
 	
 	private ArrayList<Song> songList;
 	private LinkedList<ListDataListener> listDataListeners;
@@ -108,31 +108,36 @@ public class SongCollection implements TableModel, ListModel<Song> {
 		changed();
 		
 	}
+//
+//	@Override
+//	public int getSize() {
+//	
+//		return songList.size();
+//	}
 
-	@Override
-	public int getSize() {
-	
-		return songList.size();
-	}
 
-	@Override
 	public Song getElementAt(int index) {
 		if(index<0 || index>songList.size())
 			return null;
 		
 		return songList.get(index);
 	}
+//
+//
+//	
+////	@Override
+////	public void addListDataListener(ListDataListener l) {
+////		listDataListeners.add(l);
+//		
+//	}
+//
+//	@Override
+//	public void removeListDataListener(ListDataListener l) {
+//		listDataListeners.remove(l);
+//		
+//	}
 
-	@Override
-	public void addListDataListener(ListDataListener l) {
-		listDataListeners.add(l);
-		
-	}
 
-	@Override
-	public void removeListDataListener(ListDataListener l) {
-		listDataListeners.remove(l);
-		
-	}
+
 
 }
