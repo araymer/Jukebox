@@ -23,6 +23,7 @@ public class EndOfSongEvent {
   public EndOfSongEvent(String fileName, GregorianCalendar currentTime) {
      this.fileName = fileName; 
      this.currentTime = currentTime;
+     
   }
   
   /**

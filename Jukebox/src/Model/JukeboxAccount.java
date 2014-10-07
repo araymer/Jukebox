@@ -12,22 +12,26 @@ import java.util.GregorianCalendar;
 
 
 public class JukeboxAccount {
+	
 	private String id;
 	private String password;
 	private int dailyPlayCount;
 	private GregorianCalendar dateLastPlayed;
 	private double secondsLeft;
+	
 	public JukeboxAccount(String id1, String password1){
 		id = id1;
 		password = password1;
 		dailyPlayCount = 0;
 		secondsLeft = 90000;
 	}
-	
-	public void setDateLastPlayed(Date date){ //sets the date last played from JukeBox
+	//This sets the date to today's date. This will be called when a song is played. 
+	public void setDateLastPlayed(){ //sets the date last played from JukeBox
 		dateLastPlayed = new GregorianCalendar();
 	}
-	public void addAccountPlays(){			//PlayCounter
+	//Either increment dailyPlayCount (if last played is today) else reset back to 1.
+	public void addAccountPlays() {			//PlayCounter
+		
 		if(dateLastPlayed.compareTo(new GregorianCalendar()) == 0 ){  //if the day last plated
 			
 			dailyPlayCount++;
@@ -35,9 +39,11 @@ public class JukeboxAccount {
 		else{
 			dailyPlayCount = 1;
 		}
+		
 	}
-	
+	//See if student can play a song. 
 	public boolean canSelect(int songLength) {
+		
 		boolean canPlay = (secondsLeft >= songLength && dailyPlayCount < 2);
 		if(canPlay)
 			deductTime(songLength);
@@ -45,6 +51,8 @@ public class JukeboxAccount {
 		return canPlay;
 	
 	}
+	
+	//Adjust student time when song is successfully selected. 'n' is songLength in seconds.
 	private void deductTime(int n) {
 		secondsLeft -= n;
 		

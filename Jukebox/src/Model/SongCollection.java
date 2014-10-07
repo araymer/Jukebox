@@ -1,7 +1,7 @@
 /*
  * Authors: Kyle Willson, Aaron Raymer
  * Class: SongCollection
- * Params: NONE. Constructs a SongCollection of Song objects. Also implements TableModel and ListModel.
+ * Params: NONE. Constructs a SongCollection of Song objects. Also implements TableModel for GUI view.
  * 
  * */
 
@@ -20,29 +20,33 @@ import javax.swing.table.TableModel;
 public class SongCollection implements TableModel {
 	
 	private ArrayList<Song> songList;
-	private LinkedList<ListDataListener> listDataListeners;
 	private LinkedList<TableModelListener> tableModelListeners;
 	
 	public SongCollection() {
+		
 		songList = new ArrayList<Song>();
-		songList.add(new Song("Title", "Artist", 123, "this.mp3"));
-		songList.add(new Song("Title", "Artist", 123, "this.mp3"));
-		songList.add(new Song("Title", "Artist", 123, "this.mp3"));//sample for hardcoding our songList, no maintenance functions yet.
+		songList.add(new Song("Blue Ridge Mountain Mist", "Jack Jackson", 38, "songfiles/BlueRidgeMountainMist.mp3"));
+		songList.add(new Song("Determined Tumbao", "Your Heinous, The Man", 20, "songfiles/DeterminedTumbao.mp3"));
+		songList.add(new Song("Flute", "A Flautist", 5, "songfiles/flute.aif"));
+		songList.add(new Song("Space Music", "Space", 6, "songfiles/spacemusic.au"));
+		songList.add(new Song("Swing Cheese", "Swing Cheese", 15, "songfiles/SwingCheese.mp3"));
+		songList.add(new Song("Ta-Da!", "Microsoft", 5, "songfiles/tada.wav"));
+		songList.add(new Song("Untameable Fire", "Guitars", 284, "songfiles/UntameableFire.mp3"));
 		tableModelListeners = new LinkedList<TableModelListener>();
-		listDataListeners = new LinkedList<ListDataListener>();
+		
 		}
 	
 	
 
 	//Lets our listeners know that something has changed.
 	private void changed() {
-		for(ListDataListener l : listDataListeners) {
-			l.contentsChanged(new ListDataEvent(this, ListDataEvent.CONTENTS_CHANGED, 0, songList.size()));
-		}
 		for(TableModelListener l: tableModelListeners) {
 			l. tableChanged(new TableModelEvent(this));
 		}
 	}
+	
+	
+	//FOLLOWING METHODS OVERRIDDEN FROM TABLEMODEL.
 	
 	@Override
 	public int getRowCount() {
@@ -69,7 +73,7 @@ public class SongCollection implements TableModel {
 		switch(columnIndex) {
 		case 0: return String.class;
 		case 1: return String.class;
-		case 2: return Double.class;
+		case 2: return Integer.class;
 		}
 		return null;
 	}
@@ -108,34 +112,19 @@ public class SongCollection implements TableModel {
 		changed();
 		
 	}
-//
-//	@Override
-//	public int getSize() {
-//	
-//		return songList.size();
-//	}
 
 
+	//returns a song element
 	public Song getElementAt(int index) {
 		if(index<0 || index>songList.size())
 			return null;
 		
 		return songList.get(index);
 	}
-//
-//
-//	
-////	@Override
-////	public void addListDataListener(ListDataListener l) {
-////		listDataListeners.add(l);
-//		
-//	}
-//
-//	@Override
-//	public void removeListDataListener(ListDataListener l) {
-//		listDataListeners.remove(l);
-//		
-//	}
+
+
+
+
 
 
 

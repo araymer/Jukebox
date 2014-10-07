@@ -21,18 +21,8 @@ import Model.SongCollection;
 
 public class Jukebox {
 	
-	private JList<Song> songList;
-	private SongCollection songCollection;
 	public Jukebox(){
-		
 	
-		
-	}
-	private class PlaySongListener implements ActionListener{
-		@Override
-		public void actionPerformed(ActionEvent ae){
-			
-		}
 	}
 
 

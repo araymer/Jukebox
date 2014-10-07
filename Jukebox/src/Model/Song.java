@@ -1,7 +1,7 @@
 /*
 Authors: Aaron Raymer, Kyle Willson
-Class: Song - instantiates a song object with information relevant to display and play the file
-
+Class: Song. Instantiates a song object with information relevant to display and play the file
+Params: String Title, String Artist, int length(in seconds), String file
 */
 package Model;
 
@@ -59,11 +59,18 @@ public class Song {
 		dateLastPlayed = new GregorianCalendar();
 		
 		}
-
-	public int getSongPlays(){
-		return numberOfPlays;
+	
+	
+	//Checks eligibility of song based on number of plays today.
+	public boolean canSelect(){
+		return (numberOfPlays < 5);
 	}
-
-		
+	
+	
+	//toString outputs only artist and title info.
+	@Override
+	public String toString() {
+		return (getSongArtist() + " - " + getSongTitle());
+	}
 	
 }

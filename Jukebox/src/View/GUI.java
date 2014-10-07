@@ -1,10 +1,15 @@
+/*
+ * Authors: Aaron Raymer, Kyle Willson
+ * Class: GUI. Our Jukebox GUI. displays the tablemodel from SongCollection and ListModel from Playlist
+ * and an "Add" button. 
+ */
+
 package View;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.LinkedList;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -13,16 +18,18 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.ListModel;
-import javax.swing.event.ListDataListener;
+import javax.swing.Timer;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
-import Model.PlayList;
+import songplayer.SongPlayer;
+import Model.Playlist;
 import Model.Song;
 import Model.SongCollection;
 
 public class GUI extends JFrame {
+
+	private static final long serialVersionUID = 1L;
 
 	public static void main(String[] args) {
 		new GUI().setVisible(true);
@@ -33,16 +40,16 @@ public class GUI extends JFrame {
 	private JTable jTable;
 	private JButton addButton;
 	private SongCollection songCollection;
-	private PlayList playList;
-	private LinkedList<ListDataListener> listDataListeners;
-	
-	//private Player player;
+	private Playlist playList;
+	private SongPlayer player;
+	private int delay;
+
 
 	public GUI() {
-		listDataListeners = new LinkedList<ListDataListener>();
-		playList = new PlayList();
+		delay = 0;
+		playList = new Playlist();
 		songCollection = new SongCollection();
-		//player = new Player();
+		player = new SongPlayer();
 		jTable = new JTable(songCollection);
 		jTable.setRowSorter(new TableRowSorter<TableModel>(jTable.getModel()));
 		
@@ -95,18 +102,15 @@ public class GUI extends JFrame {
 		public void actionPerformed(ActionEvent ae) {
 			Song temp = songCollection.getElementAt(jTable.getSelectedRow());
 			
-			playList.add(temp);
+			playList.addSong(temp);
+			
+			
+			player.playFile(temp.getFileName(), delay);
+			delay += temp.getSongLength();
+
+			
 			
 			
 			}
 	}
-//
-//	@Override
-//	public Song getElementAt(int index) {
-//		return playListDisplay.get(index);
-//	}
-//
-
-
-
 }

@@ -1,3 +1,8 @@
+/*
+ * Authors: Aaron Raymer, Kyle Willson
+ * Class: CardReader. Keeps track of a Hashmap of JukeboxAccount objects and returns current object.
+ */
+
 package Model;
 
 import java.util.HashMap;
@@ -13,7 +18,7 @@ public class CardReader {
 		
 	
 	}
-	
+	//returns JukeboxAccount
 	public JukeboxAccount getAccount(String ID) {
 		return accountList.get(ID);
 	}

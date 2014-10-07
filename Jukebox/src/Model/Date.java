@@ -1,3 +1,7 @@
+/*
+ * DEPRECATED - DELETE THIS CLASS
+ */
+
 package Model;
 
 import java.util.GregorianCalendar;

@@ -24,15 +24,21 @@ import javax.sound.sampled.DataLine;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.SourceDataLine;
 
+import Model.Playlist;
+
 public class AudioFilePlayer extends Thread {
 
   private String fileName;
+  private int delay;
+
 
   private List<EndOfSongListener> listeners = new ArrayList<EndOfSongListener>();
 
-  public AudioFilePlayer(String audioFileName) {
-    fileName = audioFileName;
-  }
+  public AudioFilePlayer(String audioFileName, int d) {
+	    fileName = audioFileName;
+	    delay = d;
+	  }
+  
 
   public void addEndOfSongListener(EndOfSongListener listener) {
     this.listeners.add(listener);
@@ -40,6 +46,12 @@ public class AudioFilePlayer extends Thread {
 
   @Override
   public void run() {
+	  try {
+		  Thread.sleep(delay*1000 + 2000);
+	  }
+	  catch (InterruptedException e){
+		  e.printStackTrace();
+	  }
     play();
   }
 
@@ -82,6 +94,7 @@ public class AudioFilePlayer extends Thread {
       byte[] data = new byte[4096];
       try {
         line = getLine(targetFormat);
+        
       } catch (LineUnavailableException e) {
         // TODO Auto-generated catch block
         e.printStackTrace();
@@ -149,6 +162,7 @@ public class AudioFilePlayer extends Thread {
     @Override
     public void run() {
       listener.songFinishedPlaying(eose);
+ 
     }
   }
 
