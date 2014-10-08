@@ -30,7 +30,7 @@ public class JukeboxAccount {
 		dateLastPlayed = new GregorianCalendar();
 	}
 	//Either increment dailyPlayCount (if last played is today) else reset back to 1.
-	public void addAccountPlays() {			//PlayCounter
+	public void addAccountPlays() {		
 		
 		if(dateLastPlayed.compareTo(new GregorianCalendar()) == 0 ){  //if the day last plated
 			

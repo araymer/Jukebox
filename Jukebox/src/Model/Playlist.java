@@ -18,6 +18,7 @@ public class Playlist implements ListModel {
 	private ArrayList<Song> playlist;
 	private LinkedList<ListDataListener> listDataListeners;
 	
+	
 	public Playlist(){
 		playlist = new ArrayList<Song>();
 		listDataListeners = new LinkedList<ListDataListener>();
@@ -54,6 +55,8 @@ public class Playlist implements ListModel {
 	}
 	@Override
 	public Song getElementAt(int index) {
+		if(index>=playlist.size() || index<0)
+			return null;
 		return playlist.get(index);
 	}
 	@Override

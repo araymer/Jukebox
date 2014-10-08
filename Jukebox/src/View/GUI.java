@@ -10,26 +10,30 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.lang.reflect.InvocationTargetException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
+import songplayer.EndOfSongEvent;
+import songplayer.EndOfSongListener;
 import songplayer.SongPlayer;
 import Model.Playlist;
 import Model.Song;
 import Model.SongCollection;
 
-public class GUI extends JFrame {
+public class GUI extends JFrame{
 
-	private static final long serialVersionUID = 1L;
 
 	public static void main(String[] args) {
 		new GUI().setVisible(true);
@@ -42,11 +46,12 @@ public class GUI extends JFrame {
 	private SongCollection songCollection;
 	private Playlist playList;
 	private SongPlayer player;
-	private int delay;
+	
+
 
 
 	public GUI() {
-		delay = 0;
+	
 		playList = new Playlist();
 		songCollection = new SongCollection();
 		player = new SongPlayer();
@@ -97,20 +102,41 @@ public class GUI extends JFrame {
 
 	}
 
+	private class SongListener implements EndOfSongListener {
+
+
+		@Override
+		public void songFinishedPlaying(EndOfSongEvent eventWithFileNameAndDateFinished) {
+			playList.remove();
+			
+		}
+		
+	}
+	
 	private class AddSongListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent ae) {
 			Song temp = songCollection.getElementAt(jTable.getSelectedRow());
 			
 			playList.addSong(temp);
+			String file = temp.getFileName();
 			
-			
-			player.playFile(temp.getFileName(), delay);
-			delay += temp.getSongLength();
-
-			
-			
-			
+			if(file != null)
+				player.playFile(new SongListener(), file);
+			else {
+				JOptionPane oops = new JOptionPane();
+				oops.showMessageDialog(null,"This song has reached its maximum number of plays for today.", "ERROR", JOptionPane.ERROR_MESSAGE);
 			}
+
+	
+			}
+		
+			
+		}
+
+	
 	}
-}
+
+
+
+

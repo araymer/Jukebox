@@ -1,6 +1,9 @@
 package songplayer;
 
 import Model.Playlist;
+import Model.Song;
+
+
 
 
 
@@ -16,20 +19,22 @@ import Model.Playlist;
  */
 
 public class SongPlayer {
-
+	private Playlist playlist = new Playlist();
   /**
    * Play the audio file stored in audioFileName
    * 
    * @param audioFileName
    *          The name of the file to be written to your output device.
    */
-  public static void playFile(String audioFileName, int delay) {
-    AudioFilePlayer player = new AudioFilePlayer(audioFileName, delay);
-  
+  public void playFile(String audioFileName) {
+    AudioFilePlayer player = new AudioFilePlayer(audioFileName);
+    
     // AudioFilePlayer extends Thread. When start is called,
     // the overridden run method in AudioFilePlayer executes.
     // If the song is not played in a separate thread, your GUI stops working
-    player.start();
+	
+
+		player.start();
   }
 
   /**
@@ -41,7 +46,7 @@ public class SongPlayer {
    * @param audioFileName
    *          The name of the file to be written to your output device.
    */
-  public static void playFile(EndOfSongListener waiter, String audioFileName) {
+  public void playFile(EndOfSongListener waiter, String audioFileName) {
     Thread player = new AudioFilePlayer(audioFileName);
     
  
@@ -53,5 +58,7 @@ public class SongPlayer {
     // If the song is not played in a separate thread, your GUI stops working
     player.start();
   }
+
+
 
 }

@@ -39,17 +39,23 @@ public class Song {
 		return songArtist;
 	}
 	//getter for songLength
-	public double getSongLength(){
+	public int getSongLength(){
 		return songLength;
 	}
 	
 	//getter for fileName
 	public String getFileName(){
-		return fileName;
+		if(canSelect()) {
+			setSongPlays();
+			return fileName;
+		}
+		
+		else
+			return null;
 	}
 	//either increments numberOfPlays or sets to 1 based on Date. Called from Jukebox controller
 	public void setSongPlays(){
-		if(dateLastPlayed.compareTo(new GregorianCalendar()) == 0) {
+		if(dateLastPlayed.DAY_OF_YEAR == new GregorianCalendar().DAY_OF_YEAR) {
 		numberOfPlays++;
 		
 		}

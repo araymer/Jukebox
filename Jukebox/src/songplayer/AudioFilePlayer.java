@@ -23,20 +23,21 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.DataLine;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.SourceDataLine;
+import javax.swing.SwingUtilities;
+import javax.swing.Timer;
 
-import Model.Playlist;
 
 public class AudioFilePlayer extends Thread {
 
   private String fileName;
-  private int delay;
+
 
 
   private List<EndOfSongListener> listeners = new ArrayList<EndOfSongListener>();
 
-  public AudioFilePlayer(String audioFileName, int d) {
+  public AudioFilePlayer(String audioFileName) {
 	    fileName = audioFileName;
-	    delay = d;
+
 	  }
   
 
@@ -46,13 +47,9 @@ public class AudioFilePlayer extends Thread {
 
   @Override
   public void run() {
-	  try {
-		  Thread.sleep(delay*1000 + 2000);
-	  }
-	  catch (InterruptedException e){
-		  e.printStackTrace();
-	  }
-    play();
+
+  play();
+  
   }
 
   /**
@@ -79,7 +76,7 @@ public class AudioFilePlayer extends Thread {
 
       din = AudioSystem.getAudioInputStream(decodedFormat, in);
       // Play now.
-      rawplay(decodedFormat, din);
+      SwingUtilities.invokeAndWait(rawplay(decodedFormat, din));
       in.close();
       // stop();
     } catch (Exception e) {
@@ -88,8 +85,10 @@ public class AudioFilePlayer extends Thread {
   }
 
   // This Code snippet is from JavaZOOM
-  private void rawplay(AudioFormat targetFormat, AudioInputStream din) {
-    SourceDataLine line = null;
+  private Runnable rawplay(final AudioFormat targetFormat, final AudioInputStream din) {
+   Runnable blah = new Runnable(){
+	  public void run() {
+	  SourceDataLine line = null;
     try {
       byte[] data = new byte[4096];
       try {
@@ -137,6 +136,11 @@ public class AudioFilePlayer extends Thread {
     } catch (IOException e) {
       e.printStackTrace();
     }
+	  } };
+	  
+	
+	  
+	  return blah;
   }
 
   private SourceDataLine getLine(AudioFormat audioFormat)
