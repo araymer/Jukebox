@@ -1,24 +1,23 @@
 package Test;
-import java.util.GregorianCalendar;
-
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 
-import javax.swing.ListModel;
-import javax.xml.transform.Templates;
-
 import org.junit.Test;
-import org.omg.CORBA.PUBLIC_MEMBER;
 
+import songplayer.EndOfSongEvent;
+import songplayer.EndOfSongListener;
+import songplayer.SongPlayer;
+import Controller.Jukebox;
 import Model.CardReader;
 import Model.JukeboxAccount;
 import Model.Playlist;
 import Model.Song;
 import Model.SongCollection;
-import View.JukeboxGUI;
 
 public class JukeboxTest {
 
@@ -88,18 +87,7 @@ public class JukeboxTest {
 		allStar.setSongPlays();
 		allStar.setSongPlays();
 		allStar.setSongPlays();
-		allStar.setSongPlays();
 		assertTrue(allStar.canSelect());
-	}
-
-	@Test
-	public void testSongPlayCountOver5() {
-		Song allStar = new Song("All Star", "Smash Mouth", 275, "All Star.mp3");
-		allStar.setSongPlays();
-		allStar.setSongPlays();
-		allStar.setSongPlays();
-		allStar.setSongPlays();
-		allStar.setSongPlays();
 		allStar.setSongPlays();
 		assertFalse(allStar.canSelect());
 	}
@@ -171,12 +159,13 @@ public class JukeboxTest {
 		assertEquals("Willson", temp.getPassword());
 	}
 	
-	@SuppressWarnings("deprecation")
+
 	@Test
 	public void testJukeBoxAccountTimeLeft(){
 		JukeboxAccount temp = new JukeboxAccount("Kyle", "Willson");
+		
 		temp.deductTime(1500);
-		assertEquals(75000, temp.getTimeRemaining());
+		assertEquals(temp.getTimeRemaining(), 75000);
 	}
 	
 	
@@ -257,10 +246,7 @@ public class JukeboxTest {
 		accountList.put("key", kyle);
 		assertEquals("Kyle", cR.getAccount("key"));
 	}
-	
-	
-	
-	
+
 	/*
 	
 	SongCollection
@@ -269,10 +255,71 @@ public class JukeboxTest {
 	
 	@Test
 	public void testSongCollection(){
-		SongCollection songCollec = new SongCollection();
-		ArrayList<Song> songs = new ArrayList<Song>();
-		Song spaceJam = new Song("Space Jam", "Michael Jordan", 212, "Space Jam.mp3");
-		songs.add(spaceJam);
-		assertEquals(spaceJam.equals(songCollec.getElementAt(0)), 0);
+		SongCollection testColl = new SongCollection();
+		
+		assertEquals(testColl.getRowCount(), 7);
+		
+		assertEquals(testColl.getElementAt(0).getFileName(), "songfiles/BlueRidgeMountainMist.mp3");
+		
+		assertEquals(testColl.getColumnCount(), 3);
+		
+		assertEquals(testColl.getColumnName(0), "Artist");
+		assertEquals(testColl.getColumnName(1), "Song");
+		assertEquals(testColl.getColumnName(2), "Length");
+		assertEquals(testColl.getColumnName(3), "ERROR");
+		
+		
+		assertEquals(testColl.getColumnClass(0), String.class);
+		assertEquals(testColl.getColumnClass(1), String.class);
+		assertEquals(testColl.getColumnClass(2), Integer.class);
+		assertEquals(testColl.getColumnClass(3), null);
+		
+		for(int i = 0; i<testColl.getRowCount(); i++) {
+			for(int k = 0; k<testColl.getColumnCount(); k++) {
+		
+		assertEquals(testColl.isCellEditable(i,k), false);
+			}
+		}
+		for(int i = 0; i<testColl.getRowCount(); i++) {
+		
+		assertEquals(testColl.getValueAt(i,0), testColl.getElementAt(i).getSongArtist());
+		}
+		for(int i = 0; i<testColl.getRowCount(); i++) {
+			
+			assertEquals(testColl.getValueAt(i,1), testColl.getElementAt(i).getSongTitle());
+		}
+		for(int i = 0; i<testColl.getRowCount(); i++) {
+			
+			assertEquals(testColl.getValueAt(i,2), testColl.getElementAt(i).getSongLength());
+		}
+		
+		assertEquals(testColl.getValueAt(4,4), null);
+		
+		testColl.setValueAt(new Jukebox(), 0, 0);
+		
+	
+		
+		assertEquals(testColl.getElementAt(8), null);
+		assertEquals(testColl.getElementAt(-1), null);
+		
+		
+	}
+	
+	@Test
+	public void testPlayer() {
+		SongPlayer whatever = new SongPlayer();
+		Song song = new Song("Fly Like an Eagle", "Steve Miller Band", 228, "Fly Like an Eagle.mp3");
+		whatever.playFile(song.getFileName());
+	
+	}
+	
+	@Test
+	public void testJukebox() {
+		Jukebox whatever = new Jukebox();
+		Playlist list = whatever.returnList();
+	
+		whatever.songList.addSong(new Song("","",1,""));
+		
+		
 	}
 }

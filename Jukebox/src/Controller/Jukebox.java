@@ -14,7 +14,7 @@ import Model.Song;
 
 public class Jukebox implements Observer{
 	
-	private Playlist songList;
+	public Playlist songList;
 	private JukeboxAccount user;
 	private SongPlayer player;
 
@@ -34,7 +34,6 @@ public class Jukebox implements Observer{
 		String file = temp.getFileName();
 		
 		if(file != null) {
-			songList.addSong(temp);
 			player.playFile(new SongListener(), file);
 		}
 		else {
