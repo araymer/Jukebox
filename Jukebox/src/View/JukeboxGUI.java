@@ -10,35 +10,33 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.lang.reflect.InvocationTargetException;
+import java.util.Observable;
+import java.util.Observer;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.SwingUtilities;
-import javax.swing.Timer;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
-import songplayer.EndOfSongEvent;
-import songplayer.EndOfSongListener;
 import songplayer.SongPlayer;
+import Controller.Jukebox;
 import Model.Playlist;
 import Model.Song;
 import Model.SongCollection;
 
-public class GUI extends JFrame{
-
+public class JukeboxGUI extends JFrame {
 
 	public static void main(String[] args) {
-		new GUI().setVisible(true);
+		
+		new JukeboxGUI().setVisible(true);
 
 	}
+
 
 	private JList<Song> songList;
 	private JTable jTable;
@@ -46,17 +44,20 @@ public class GUI extends JFrame{
 	private SongCollection songCollection;
 	private Playlist playList;
 	private SongPlayer player;
+	public Jukebox theBox;
 	
 
 
 
-	public GUI() {
-	
-		playList = new Playlist();
+	public JukeboxGUI() {
+		theBox = new Jukebox();
+		playList = theBox.returnList();
 		songCollection = new SongCollection();
 		player = new SongPlayer();
 		jTable = new JTable(songCollection);
 		jTable.setRowSorter(new TableRowSorter<TableModel>(jTable.getModel()));
+		
+		registerObservers();
 		
 		this.setLayout(new GridLayout(1, 2));
 		
@@ -65,12 +66,11 @@ public class GUI extends JFrame{
 		left.add(new JScrollPane(jTable), BorderLayout.CENTER);
 		//Gets the Top Panel for the label
 		JPanel topPanel = new JPanel();
-		new JLabel("Songs List");
 		topPanel.add(new JLabel("Catalog"));
 		left.add((topPanel), BorderLayout.NORTH);
 		// add button
-		JButton add = new JButton("Add");
-		add.addActionListener(new AddSongListener());
+		JButton add = new JButton("Add Song");
+		add.addActionListener(new AddSongButtonListener());
 		left.add(add, BorderLayout.SOUTH);
 		this.add(left);
 
@@ -102,39 +102,27 @@ public class GUI extends JFrame{
 
 	}
 
-	private class SongListener implements EndOfSongListener {
 
-
-		@Override
-		public void songFinishedPlaying(EndOfSongEvent eventWithFileNameAndDateFinished) {
-			playList.remove();
-			
-		}
-		
-	}
 	
-	private class AddSongListener implements ActionListener {
+	private void registerObservers() {
+		playList.addObserver(theBox);	
+	}
+
+
+
+	private class AddSongButtonListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent ae) {
 			Song temp = songCollection.getElementAt(jTable.getSelectedRow());
 			
-			playList.addSong(temp);
+		
 			String file = temp.getFileName();
 			
-			if(file != null)
-				player.playFile(new SongListener(), file);
-			else {
-				JOptionPane oops = new JOptionPane();
-				oops.showMessageDialog(null,"This song has reached its maximum number of plays for today.", "ERROR", JOptionPane.ERROR_MESSAGE);
-			}
-
-	
-			}
+			if(file != null) 
+				playList.addSong(temp);
 		
-			
+			}
 		}
-
-	
 	}
 
 

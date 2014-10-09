@@ -41,7 +41,7 @@ public class JukeboxAccount {
 		}
 		
 	}
-	//See if student can play a song. 
+	//See if account can play a specific song. 
 	public boolean canSelect(int songLength) {
 		
 		boolean canPlay = (secondsLeft >= songLength && dailyPlayCount < 2);
@@ -53,8 +53,30 @@ public class JukeboxAccount {
 	}
 	
 	//Adjust student time when song is successfully selected. 'n' is songLength in seconds.
-	private void deductTime(int n) {
+	public void deductTime(int n) {
 		secondsLeft -= n;
 		
 	}
+	
+	//getters for variables (mostly for coverage)
+		public String getID(){
+			return id;
+		}
+		public String getPassword(){
+			return password;
+		}
+		public double getTimeRemaining(){
+			return secondsLeft;
+		}
+		
+		public GregorianCalendar getDateLastPlayed(){
+			return dateLastPlayed;
+		}
+		//checks only if account has reached daily limit
+		public boolean canPlay(){
+			if(dailyPlayCount <= 2){
+				return true;
+			}
+			return false;
+		}
 }

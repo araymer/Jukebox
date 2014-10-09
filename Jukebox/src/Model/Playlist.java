@@ -8,12 +8,13 @@ package Model;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.Observable;
 
 import javax.swing.ListModel;
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
 
-public class Playlist implements ListModel {
+public class Playlist extends Observable implements ListModel {
 	
 	private ArrayList<Song> playlist;
 	private LinkedList<ListDataListener> listDataListeners;
@@ -28,11 +29,15 @@ public class Playlist implements ListModel {
 	public void addSong(Song s){
 		playlist.add(s);
 		changed();
+		setChanged();
+		notifyObservers();
 	}
 	//remove a song from playlist (only after song has played)
 	public void remove(){
 		playlist.remove(0);
 		changed();
+		setChanged();
+		notifyObservers();
 	}
 	//returns fileName of the song currently ready to be played (to send to player)
 	public String getFileName(){
