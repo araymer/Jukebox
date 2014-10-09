@@ -241,12 +241,12 @@ public class JukeboxTest {
 		assertEquals("Ali", accountList.get("Ali").getID());
 	}
 	
-	@Test
-	public void testCardReaderID(){
-		CardReader cR = new CardReader();
-
-		assertEquals("Alli", cR.getAccount("Alli").getID());
-	}
+//	@Test
+//	public void testCardReaderID(){
+//		CardReader cR = new CardReader();
+//
+//		assertEquals("Alli", cR.getAccount("Alli").getID());
+//	}
 
 	/*
 	
