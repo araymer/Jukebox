@@ -165,7 +165,7 @@ public class JukeboxTest {
 		JukeboxAccount temp = new JukeboxAccount("Kyle", "Willson");
 		
 		temp.deductTime(1500);
-		assertEquals(temp.getTimeRemaining(), 75000);
+		assertEquals(temp.getTimeRemaining(), 88500, 0.00001);
 	}
 	
 	
@@ -185,6 +185,9 @@ public class JukeboxTest {
 		temp.addAccountPlays();
 		temp.addAccountPlays();
 		assertFalse(temp.canPlay());
+		temp.dateLastPlayed = new GregorianCalendar(1970, 0, 1);
+		temp.addAccountPlays();
+		assertTrue(temp.canPlay());
 	}
 	
 	@Test
@@ -241,10 +244,8 @@ public class JukeboxTest {
 	@Test
 	public void testCardReaderID(){
 		CardReader cR = new CardReader();
-		JukeboxAccount kyle = new JukeboxAccount("Kyle", "Willson");
-		HashMap<String, JukeboxAccount> accountList = new HashMap<String, JukeboxAccount>();
-		accountList.put("key", kyle);
-		assertEquals("Kyle", cR.getAccount("key"));
+
+		assertEquals("Alli", cR.getAccount("Alli").getID());
 	}
 
 	/*
@@ -318,7 +319,7 @@ public class JukeboxTest {
 		Jukebox whatever = new Jukebox();
 		Playlist list = whatever.returnList();
 	
-		whatever.songList.addSong(new Song("","",1,""));
+		whatever.queueSong(new Song("","",1,""));
 		
 		
 	}

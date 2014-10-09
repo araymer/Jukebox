@@ -16,7 +16,7 @@ public class JukeboxAccount {
 	private String id;
 	private String password;
 	private int dailyPlayCount;
-	private GregorianCalendar dateLastPlayed;
+	public GregorianCalendar dateLastPlayed;
 	private double secondsLeft;
 	
 	public JukeboxAccount(String id1, String password1){
@@ -47,7 +47,7 @@ public class JukeboxAccount {
 		boolean canPlay = (secondsLeft >= songLength && dailyPlayCount < 2);
 		if(canPlay)
 			deductTime(songLength);
-		
+		 
 		return canPlay;
 	
 	}

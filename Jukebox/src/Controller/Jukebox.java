@@ -30,7 +30,7 @@ public class Jukebox implements Observer{
 	@Override
 	public void update(Observable o, Object arg) {
 		
-		Song temp = songList.getElementAt(0);
+		Song temp = (Song) arg;
 		String file = temp.getFileName();
 		
 		if(file != null) {
