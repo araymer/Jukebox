@@ -76,7 +76,7 @@ public class AudioFilePlayer extends Thread {
 
       din = AudioSystem.getAudioInputStream(decodedFormat, in);
       // Play now.
-      SwingUtilities.invokeAndWait(rawplay(decodedFormat, din));
+      rawplay(decodedFormat, din);
       in.close();
       // stop();
     } catch (Exception e) {
@@ -85,63 +85,55 @@ public class AudioFilePlayer extends Thread {
   }
 
   // This Code snippet is from JavaZOOM
-  private Runnable rawplay(final AudioFormat targetFormat, final AudioInputStream din) {
-   Runnable blah = new Runnable(){
-	  public void run() {
-	  SourceDataLine line = null;
-    try {
-      byte[] data = new byte[4096];
-      try {
-        line = getLine(targetFormat);
-        
-      } catch (LineUnavailableException e) {
-        // TODO Auto-generated catch block
-        e.printStackTrace();
-      }
-      if (line != null) {
-        // Start
-        line.start();
-        int nBytesRead = 0;
-        @SuppressWarnings("unused")
-        int nBytesWritten = 0;
-        while (nBytesRead != -1) {
-          nBytesRead = din.read(data, 0, data.length);
-          if (nBytesRead != -1)
-            nBytesWritten = line.write(data, 0, nBytesRead);
-        }
-        // Stop
-        line.drain();
-        line.stop();
-        line.close();
-        din.close();
-        
-        // Notify the listeners if there are any objects waiting for
-        // this message.
-        for(EndOfSongListener listener : listeners) {
-          EndOfSongEvent eose = new EndOfSongEvent(fileName,
-              new GregorianCalendar());
-          if (!EventQueue.isDispatchThread()) {
-            try {
-              EventQueue.invokeAndWait(new EDTListener(eose, listener));
-            } catch (InvocationTargetException e) {
-              e.printStackTrace();
-            } catch (InterruptedException e) {
-              e.printStackTrace();
-            }
-          } else {
-            listener.songFinishedPlaying(eose);
-          }
-        }
-      }
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-	  } };
-	  
-	
-	  
-	  return blah;
-  }
+  private void rawplay(AudioFormat targetFormat, AudioInputStream din) {
+	    SourceDataLine line = null;
+	    try {
+	      byte[] data = new byte[4096];
+	      try {
+	        line = getLine(targetFormat);
+	      } catch (LineUnavailableException e) {
+	        // TODO Auto-generated catch block
+	        e.printStackTrace();
+	      }
+	      if (line != null) {
+	        // Start
+	        line.start();
+	        int nBytesRead = 0;
+	        @SuppressWarnings("unused")
+	        int nBytesWritten = 0;
+	        while (nBytesRead != -1) {
+	          nBytesRead = din.read(data, 0, data.length);
+	          if (nBytesRead != -1)
+	            nBytesWritten = line.write(data, 0, nBytesRead);
+	        }
+	        // Stop
+	        line.drain();
+	        line.stop();
+	        line.close();
+	        din.close();
+	        
+	        // Notify the listeners if there are any objects waiting for
+	        // this message.
+	        for(EndOfSongListener listener : listeners) {
+	          EndOfSongEvent eose = new EndOfSongEvent(fileName,
+	              new GregorianCalendar());
+	          if (!EventQueue.isDispatchThread()) {
+	            try {
+	              EventQueue.invokeAndWait(new EDTListener(eose, listener));
+	            } catch (InvocationTargetException e) {
+	              e.printStackTrace();
+	            } catch (InterruptedException e) {
+	              e.printStackTrace();
+	            }
+	          } else {
+	            listener.songFinishedPlaying(eose);
+	          }
+	        }
+	      }
+	    } catch (IOException e) {
+	      e.printStackTrace();
+	    }
+	  }
 
   private SourceDataLine getLine(AudioFormat audioFormat)
       throws LineUnavailableException {

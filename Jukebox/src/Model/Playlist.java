@@ -36,8 +36,7 @@ public class Playlist extends Observable implements ListModel {
 	public void remove(){
 		playlist.remove(0);
 		changed();
-		setChanged();
-		notifyObservers();
+
 	}
 	//returns fileName of the song currently ready to be played (to send to player)
 	public String getFileName(){

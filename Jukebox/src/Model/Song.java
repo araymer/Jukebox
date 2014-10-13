@@ -45,13 +45,9 @@ public class Song {
 	
 	//getter for fileName
 	public String getFileName(){
-		if(canSelect()) {
-			setSongPlays();
-			return fileName;
-		}
 		
-		else
-			return null;
+			return fileName;
+		
 	}
 	//either increments numberOfPlays or sets to 1 based on Date. Called from Jukebox controller
 	public void setSongPlays(){
