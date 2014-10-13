@@ -65,7 +65,7 @@ public class Song {
 	
 	//Checks eligibility of song based on number of plays today.
 	public boolean canSelect(){
-		return (numberOfPlays < 5);
+		return (numberOfPlays <= 5);
 	}
 	
 	

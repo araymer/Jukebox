@@ -36,14 +36,14 @@ public class Jukebox implements Observer{
 		
 		Song temp = (Song) arg;
 		String file = temp.getFileName();
+		temp.setSongPlays();
 		
 		if(songList.getSize() == 1 && temp.canSelect()) {
-			temp.setSongPlays();
 			player.playFile(new SongListener(), file);
 		}
 		else if(!temp.canSelect()){
+			songList.remove(songList.getSize()-1);
 			JOptionPane oops = new JOptionPane();
-			songList.remove();
 			oops.showMessageDialog(null,"This song has reached its maximum number of plays for today.", "ERROR", JOptionPane.ERROR_MESSAGE);
 			} 
 		
@@ -57,7 +57,6 @@ public class Jukebox implements Observer{
 		public void songFinishedPlaying(EndOfSongEvent eventWithFileNameAndDateFinished) {
 			songList.remove();
 			if(songList.getSize() > 0) {
-				songList.getElementAt(0).setSongPlays();
 				player.playFile(new SongListener(), songList.getElementAt(0).getFileName());
 			}
 			

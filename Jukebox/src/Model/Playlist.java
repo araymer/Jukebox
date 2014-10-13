@@ -38,6 +38,11 @@ public class Playlist extends Observable implements ListModel {
 		changed();
 
 	}
+	public void remove(int n){
+		playlist.remove(n);
+		changed();
+
+	}
 	//returns fileName of the song currently ready to be played (to send to player)
 	public String getFileName(){
 		return playlist.get(0).getFileName();
