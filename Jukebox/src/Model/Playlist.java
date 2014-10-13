@@ -29,7 +29,7 @@ public class Playlist extends Observable implements ListModel {
 	public void addSong(Song s){
 		playlist.add(s);
 		changed();
-		setChanged();
+		setChanged(); 
 		notifyObservers(s);
 	}
 	//remove a song from playlist (only after song has played)

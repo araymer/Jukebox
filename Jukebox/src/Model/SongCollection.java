@@ -25,13 +25,9 @@ public class SongCollection implements TableModel {
 	public SongCollection() {
 		
 		songList = new ArrayList<Song>();
-		songList.add(new Song("Blue Ridge Mountain Mist", "Jack Jackson", 38, "songfiles/BlueRidgeMountainMist.mp3"));
-		songList.add(new Song("Determined Tumbao", "Your Heinous, The Man", 20, "songfiles/DeterminedTumbao.mp3"));
-		songList.add(new Song("Flute", "A Flautist", 5, "songfiles/flute.aif"));
-		songList.add(new Song("Space Music", "Space", 6, "songfiles/spacemusic.au"));
-		songList.add(new Song("Swing Cheese", "Swing Cheese", 15, "songfiles/SwingCheese.mp3"));
+		songList.add(new Song("Winter in the Desert", "Aaron Raymer", 266, "songfiles/01 Winter in the Desert.mp3"));
 		songList.add(new Song("Ta-Da!", "Microsoft", 5, "songfiles/tada.wav"));
-		songList.add(new Song("Untameable Fire", "Guitars", 284, "songfiles/UntameableFire.mp3"));
+		songList.add(new Song("Hey Joe", "Jimi Hendrix", 210, "songfiles/03 Hey Joe.aiff"));
 		tableModelListeners = new LinkedList<TableModelListener>();
 		
 		}
