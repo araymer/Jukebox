@@ -7,6 +7,8 @@
 package View;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -17,6 +19,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.Arrays;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -24,15 +27,17 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.ListModel;
+import javax.swing.JTextField;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
 import songplayer.SongPlayer;
 import Controller.Jukebox;
 import Model.CardReader;
+import Model.JukeboxAccount;
 import Model.Playlist;
 import Model.Song;
 import Model.SongCollection;
@@ -50,19 +55,27 @@ public class JukeboxGUI extends JFrame {
 	private JList<Song> songList;
 	private JTable jTable;
 	private JButton addButton;
+	private JTextField userName;
+	private JPasswordField password;
+	private JLabel userPlays;
+	private JLabel userMin;
+	private JLabel userDisp;
+	private JButton btnLogin;
 	private SongCollection songCollection;
 	private Playlist playList;
 	private SongPlayer player;
 	public Jukebox theBox;
 	private CardReader saveAcct;
 	private LoginWindow loginPanel;
+	private boolean loginSuccess;
+	private JukeboxAccount user;
 
 
 
 
 	public JukeboxGUI() {
 		
-		
+		loginSuccess = false;
 		theBox = new Jukebox();
 		loginPanel = new LoginWindow(theBox);
 		playList = theBox.returnList();
@@ -77,6 +90,7 @@ public class JukeboxGUI extends JFrame {
 			
 		}
 		
+		//Listener for window close to save data
 		this.addWindowListener(new SaveDataListener());
 
 	
@@ -89,9 +103,45 @@ public class JukeboxGUI extends JFrame {
 		this.setLayout(new GridLayout(1, 3));
 		
 		//login panel (far left)
+		
+		userName = new JTextField(20);
+		userName.setText("User Name");
+		password = new JPasswordField(20);
+		password.setText("Password");
+		btnLogin = new JButton("Login");
+		btnLogin.addActionListener(new LoginButtonListener());
 		JPanel loginLeft = new JPanel();
-		loginLeft.setLayout(new BorderLayout());
-		loginLeft.add(loginPanel, BorderLayout.CENTER);
+		loginLeft.setLayout(new FlowLayout());
+		JPanel spacer = new JPanel();
+		spacer.setPreferredSize(new Dimension(300,15));
+		btnLogin.setPreferredSize(new Dimension(100, 20));
+		loginLeft.add(spacer);
+		loginLeft.add(userName);
+		loginLeft.add(password);
+		loginLeft.add(btnLogin);
+
+		
+		userPlays = new JLabel();
+		userPlays.setText("Plays Left Today:\t");
+		userMin = new JLabel();
+		userMin.setText("Total Seconds Left:\t");
+		userDisp = new JLabel();
+		userDisp.setText("Current User:\t");
+		
+		userPlays.setPreferredSize(new Dimension(250, 15));
+		userMin.setPreferredSize(new Dimension(250, 15));
+		userDisp.setPreferredSize(new Dimension(250, 15));
+
+		JPanel userInfo = new JPanel();
+		userInfo.setPreferredSize(new Dimension(300, 100));
+		userInfo.add(userDisp);
+		userInfo.add(userPlays);
+		userInfo.add(userMin);
+		loginLeft.add(userInfo);
+	
+
+
+		//loginLeft.add(loginPanel, BorderLayout.CENTER);
 		this.add(loginLeft);
 		
 		JPanel left = new JPanel();
@@ -147,7 +197,7 @@ public class JukeboxGUI extends JFrame {
 	private class AddSongButtonListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent ae) {
-			if(loginPanel.isSucceeded()) {
+			if(loginSuccess) {
 			Song temp = (songCollection).getElementAt(jTable.getSelectedRow());
 			
 		
@@ -157,10 +207,31 @@ public class JukeboxGUI extends JFrame {
 				playList.addSong(temp);
 		
 			}
+			else {
+				JOptionPane.showMessageDialog(null, "Please LOGIN to play songs");
+			}
 		}
 	}
 	
-	@SuppressWarnings("unchecked")
+	private class LoginButtonListener implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent ae) {
+			if(Arrays.equals(saveAcct.getAccount(userName.getText().trim()).getPassword().toCharArray(),password.getPassword())) {
+				user = saveAcct.getAccount(userName.getText());
+				userDisp.setText("Current User:\t\t" + user.getID());
+				userMin.setText("Total Seconds Left:\t" + user.getTimeRemaining());
+				userPlays.setText("Plays Left Today:\t" + user.getPlays());
+				loginSuccess = true;
+				
+			}
+			else {
+				System.out.println(password.getPassword());
+				System.out.println(saveAcct.getAccount(userName.getText().trim()).getPassword().toCharArray());
+				//JOptionPane.showMessageDialog(null, "Username and/or password do not match our records");
+			}
+		}
+	}
+	
 	public boolean loadData() {
 
 		try {

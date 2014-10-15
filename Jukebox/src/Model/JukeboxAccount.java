@@ -84,4 +84,8 @@ public class JukeboxAccount implements Serializable {
 			}
 			return false;
 		}
+		public String getPlays() {
+			Integer plays = 2-dailyPlayCount;
+			return (plays.toString());
+		}
 }
