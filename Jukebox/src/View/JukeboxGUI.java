@@ -66,7 +66,6 @@ public class JukeboxGUI extends JFrame {
 	private SongPlayer player;
 	public Jukebox theBox;
 	private CardReader saveAcct;
-	private LoginWindow loginPanel;
 	private boolean loginSuccess;
 	private JukeboxAccount user;
 
@@ -77,7 +76,6 @@ public class JukeboxGUI extends JFrame {
 		
 		loginSuccess = false;
 		theBox = new Jukebox();
-		loginPanel = new LoginWindow(theBox);
 		playList = theBox.returnList();
 		player = new SongPlayer();
 		
@@ -197,18 +195,30 @@ public class JukeboxGUI extends JFrame {
 	private class AddSongButtonListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent ae) {
-			if(loginSuccess) {
+			if(loginSuccess && user.canPlay()) {
 			Song temp = (songCollection).getElementAt(jTable.getSelectedRow());
 			
 		
 			String file = temp.getFileName();
 			
-			if(file != null) 
+			if(file != null && user.canSelect(temp.getSongLength())) {
 				playList.addSong(temp);
+				user.deductTime(temp.getSongLength());
+				user.addAccountPlays();
+				userPlays.setText("Plays Left Today:\t" + user.getPlays());
+				userMin.setText("Total Seconds Left:\t" + user.getTimeRemaining());
 		
 			}
-			else {
+			else if(!user.canSelect(temp.getSongLength())){
+				JOptionPane.showMessageDialog(null, "You do not have enough time left on your account to play that selection.");
+			}
+			}
+			
+			else if(!loginSuccess){
 				JOptionPane.showMessageDialog(null, "Please LOGIN to play songs");
+			}
+			else if(!user.canPlay()) {
+				JOptionPane.showMessageDialog(null, "You have reached your daily play limit.\n\n Please try again tomorrow.");	
 			}
 		}
 	}
