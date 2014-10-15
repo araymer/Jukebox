@@ -57,7 +57,7 @@ public class Song implements Serializable{
 	}
 	//either increments numberOfPlays or sets to 1 based on Date. Called from Jukebox controller
 	public void setSongPlays(){
-		if(dateLastPlayed.DAY_OF_YEAR == new GregorianCalendar().DAY_OF_YEAR) {
+		if(dateLastPlayed.DAY_OF_YEAR == new GregorianCalendar().DAY_OF_YEAR && dateLastPlayed.YEAR == new GregorianCalendar().YEAR) {
 		numberOfPlays++;
 		
 		}

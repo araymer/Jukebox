@@ -196,12 +196,12 @@ public class JukeboxGUI extends JFrame {
 		@Override
 		public void actionPerformed(ActionEvent ae) {
 			if(loginSuccess && user.canPlay()) {
-			Song temp = (songCollection).getElementAt(jTable.getSelectedRow());
+			Song temp = songCollection.getElementAt(jTable.getSelectedRow());
 			
 		
 			String file = temp.getFileName();
 			
-			if(file != null && user.canSelect(temp.getSongLength())) {
+			if(file != null && user.canSelect(temp.getSongLength()) && temp.canSelect()) {
 				playList.addSong(temp);
 				user.deductTime(temp.getSongLength());
 				user.addAccountPlays();
@@ -226,6 +226,10 @@ public class JukeboxGUI extends JFrame {
 	private class LoginButtonListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent ae) {
+			if(saveAcct.getAccount(userName.getText().trim()) == null) {
+				JOptionPane.showMessageDialog(null, "Username and/or password do not match our records");
+			return;	
+			}
 			if(Arrays.equals(saveAcct.getAccount(userName.getText().trim()).getPassword().toCharArray(),password.getPassword())) {
 				user = saveAcct.getAccount(userName.getText());
 				userDisp.setText("Current User:\t\t" + user.getID());
@@ -235,10 +239,9 @@ public class JukeboxGUI extends JFrame {
 				
 			}
 			else {
-				System.out.println(password.getPassword());
-				System.out.println(saveAcct.getAccount(userName.getText().trim()).getPassword().toCharArray());
-				//JOptionPane.showMessageDialog(null, "Username and/or password do not match our records");
+				JOptionPane.showMessageDialog(null, "Username and/or password do not match our records");
 			}
+		
 		}
 	}
 	

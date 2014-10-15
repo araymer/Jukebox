@@ -26,8 +26,13 @@ public class SongCollection implements TableModel, Serializable {
 		songList = new ArrayList<Song>();
 		tableModelListeners = new LinkedList<TableModelListener>();
 		songList.add(new Song("Winter in the Desert", "Aaron Raymer", 266, "songfiles/01 Winter in the Desert.mp3"));
-		songList.add(new Song("Ta-Da!", "Microsoft", 5, "songfiles/tada.wav"));
-		songList.add(new Song("Hey Joe", "Jimi Hendrix", 210, "songfiles/03 Hey Joe.aiff"));
+		songList.add(new Song("Have a Cigar", "Pink Floyd", 324, "songfiles/03 Have a Cigar.mp3"));
+		songList.add(new Song("Jesus Doesn't Want Me For A Sunbeam", "Nirvana", 276, "songfiles/03 Jesus Doesn't Want Me for a Sunbeam.mp3"));
+		songList.add(new Song("Wish You Were Here", "Pink Floyd", 323, "songfiles/04 Wish You Were Here.mp3"));
+		songList.add(new Song("On A Plain", "Nirvana", 227, "songfiles/08 On a Plain.mp3"));
+		songList.add(new Song("Lake of Fire", "Nirvana", 176, "songfiles/12 Lake of Fire.mp3"));
+		songList.add(new Song("Lost In The Supermarket", "The Clash", 229, "songfiles/08 - Lost In The Supermarket.mp3"));
+
 		
 		}
 	

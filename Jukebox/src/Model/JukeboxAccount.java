@@ -9,6 +9,7 @@
 package Model;
 
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 
@@ -38,7 +39,7 @@ public class JukeboxAccount implements Serializable {
 	//Either increment dailyPlayCount (if last played is today) else reset back to 1.
 	public void addAccountPlays() {		
 		
-		if(dateLastPlayed.compareTo(new GregorianCalendar()) == 0 ){  //if the day last plated
+		if(dateLastPlayed.get(Calendar.DAY_OF_YEAR) == new GregorianCalendar().get(Calendar.DAY_OF_YEAR) && dateLastPlayed.get(Calendar.YEAR) == new GregorianCalendar().get(Calendar.YEAR)){  //if the day last plated
 			
 			dailyPlayCount++;
 			
