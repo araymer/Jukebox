@@ -19,20 +19,23 @@ public class SongCollection implements TableModel, Serializable {
 
 	private static final long serialVersionUID = -6529535610908686714L;
 	private ArrayList<Song> songList;
-	private LinkedList<TableModelListener> tableModelListeners;
+	private transient LinkedList<TableModelListener> tableModelListeners;
 	
 	public SongCollection() {
 		
 		songList = new ArrayList<Song>();
+		tableModelListeners = new LinkedList<TableModelListener>();
 		songList.add(new Song("Winter in the Desert", "Aaron Raymer", 266, "songfiles/01 Winter in the Desert.mp3"));
 		songList.add(new Song("Ta-Da!", "Microsoft", 5, "songfiles/tada.wav"));
 		songList.add(new Song("Hey Joe", "Jimi Hendrix", 210, "songfiles/03 Hey Joe.aiff"));
-		tableModelListeners = new LinkedList<TableModelListener>();
 		
 		}
 	
 
-	
+	public void addSong(Song s) {
+		songList.add(s);
+		changed();
+	}
 
 	//Lets our listeners know that something has changed.
 	private void changed() {
@@ -97,8 +100,12 @@ public class SongCollection implements TableModel, Serializable {
 
 	@Override
 	public void addTableModelListener(TableModelListener l) {
+		if(tableModelListeners == null)
+			tableModelListeners = new LinkedList<TableModelListener>();
+		
 		tableModelListeners.add(l);
 		changed();
+		
 		
 	}
 
