@@ -3,8 +3,8 @@ package Model;
 import java.util.HashMap;
 
 public class JukeboxAccountCollection {
-	private static HashMap<String, JukeboxAccount> accountList;
-	private static JukeboxAccount jukeAcc;
+	private HashMap<String, JukeboxAccount> accountList;
+	private JukeboxAccount jukeAcc;
 	public JukeboxAccountCollection(){
 		accountList = new HashMap<String, JukeboxAccount>();
 		accountList.put("Ali", new JukeboxAccount("Ali", "1111"));
@@ -12,7 +12,7 @@ public class JukeboxAccountCollection {
 		accountList.put("River", new JukeboxAccount("River", "3333"));
 		accountList.put("Ryan", new JukeboxAccount("Ryan", "4444"));
 	}
-    public static boolean authenticate(String id, String password) {
+    public boolean authenticate(String id, String password) {
         // hardcoded username and password
     	if(accountList.containsKey(id)){
 	        if (accountList.get(id).getID().equals("Ali") && accountList.get(id).getPassword().equals("1111")) {
@@ -37,7 +37,7 @@ public class JukeboxAccountCollection {
         
         return false;
     }
-    public static JukeboxAccount getAcc(){
+    public JukeboxAccount getAcc(){
     	return jukeAcc;
     	
     }

@@ -1,14 +1,12 @@
 package View;
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Frame;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
-import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -17,9 +15,10 @@ import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 
 import Controller.Jukebox;
+import Model.CardReader;
 import Model.JukeboxAccountCollection;
 
-public class LoginWindow extends JDialog {
+public class LoginWindow extends JPanel {
  
     private JTextField tfUsername;
     private JPasswordField pfPassword;
@@ -28,9 +27,12 @@ public class LoginWindow extends JDialog {
     private JButton btnLogin;
     private JButton btnCancel;
     private boolean succeeded;
+    private CardReader acct;
+    private Jukebox theBox;
  
-    public LoginWindow(Frame parent) {
-        
+    public LoginWindow(Jukebox b) {
+        acct = new CardReader();
+        theBox = b;
         //
         JPanel panel = new JPanel(new GridBagLayout());
         GridBagConstraints gridLayout = new GridBagConstraints();
@@ -65,14 +67,14 @@ public class LoginWindow extends JDialog {
         btnLogin = new JButton("Login");
  
         btnLogin.addActionListener(new ActionListener() {
- 
+        	@Override
             public void actionPerformed(ActionEvent e) {
-            	//Checks if the username and passowrds are correct
-                if (JukeboxAccountCollection.authenticate(getUsername(), getPassword())) {
+            	//Checks if the username and password are correct
+                if(acct.getAccount(getUsername()).getPassword() == getPassword()) {
                 	//
-                    Jukebox.login(JukeboxAccountCollection.getAcc());
+                    theBox.login(acct.getAccount(getUsername()));
                     succeeded = true;
-                    dispose();
+                   
                 } else {
                     JOptionPane.showMessageDialog(LoginWindow.this,
                             "Invalid username or password",
@@ -86,23 +88,14 @@ public class LoginWindow extends JDialog {
                 }
             }
         });
-        btnCancel = new JButton("Cancel");
-        btnCancel.addActionListener(new ActionListener() {
- 
-            public void actionPerformed(ActionEvent e) {
-                dispose();
-            }
-        });
+        
         JPanel bp = new JPanel();
         bp.add(btnLogin);
-        bp.add(btnCancel);
- 
-        getContentPane().add(panel, BorderLayout.CENTER);
-        getContentPane().add(bp, BorderLayout.PAGE_END);
- 
-        pack();
-        setResizable(false);
+  
     }
+    
+    
+    
  
     public String getUsername() {
         return tfUsername.getText().trim();
@@ -115,4 +108,6 @@ public class LoginWindow extends JDialog {
     public boolean isSucceeded() {
         return succeeded;
     }
+    
+
 }

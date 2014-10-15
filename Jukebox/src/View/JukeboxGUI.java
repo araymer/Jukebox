@@ -55,6 +55,7 @@ public class JukeboxGUI extends JFrame {
 	private SongPlayer player;
 	public Jukebox theBox;
 	private CardReader saveAcct;
+	private LoginWindow loginPanel;
 
 
 
@@ -63,6 +64,7 @@ public class JukeboxGUI extends JFrame {
 		
 		
 		theBox = new Jukebox();
+		loginPanel = new LoginWindow(theBox);
 		playList = theBox.returnList();
 		player = new SongPlayer();
 		
@@ -84,15 +86,23 @@ public class JukeboxGUI extends JFrame {
 		
 		registerObservers();
 		
-		this.setLayout(new GridLayout(1, 2));
+		this.setLayout(new GridLayout(1, 3));
+		
+		//login panel (far left)
+		JPanel loginLeft = new JPanel();
+		loginLeft.setLayout(new BorderLayout());
+		loginLeft.add(loginPanel, BorderLayout.CENTER);
+		this.add(loginLeft);
 		
 		JPanel left = new JPanel();
 		left.setLayout(new BorderLayout());
 		left.add(new JScrollPane(jTable), BorderLayout.CENTER);
+		
 		//Gets the Top Panel for the label
 		JPanel topPanel = new JPanel();
 		topPanel.add(new JLabel("Catalog"));
 		left.add((topPanel), BorderLayout.NORTH);
+	
 		// add button
 		JButton add = new JButton("Add Song");
 		add.addActionListener(new AddSongButtonListener());
@@ -100,7 +110,7 @@ public class JukeboxGUI extends JFrame {
 		this.add(left);
 
 		 
-		// right side
+		// right side (play queue)
 		
 		
 		songList = new JList<Song>(playList);
@@ -121,7 +131,7 @@ public class JukeboxGUI extends JFrame {
 		this.add(right);
 
 		// frame setup
-		this.setSize(600, 300);
+		this.setSize(900, 300);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setVisible(true);
 		
@@ -129,15 +139,15 @@ public class JukeboxGUI extends JFrame {
 	}
 
 	
+	
 	private void registerObservers() {
 		playList.addObserver(theBox);	
 	}
 
-
-
 	private class AddSongButtonListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent ae) {
+			if(loginPanel.isSucceeded()) {
 			Song temp = (songCollection).getElementAt(jTable.getSelectedRow());
 			
 		
@@ -148,7 +158,7 @@ public class JukeboxGUI extends JFrame {
 		
 			}
 		}
-	
+	}
 	
 	@SuppressWarnings("unchecked")
 	public boolean loadData() {
@@ -190,7 +200,6 @@ public class JukeboxGUI extends JFrame {
 		
 	
 		}
-	
 	
 	private class SaveDataListener implements WindowListener {
 		// TODO 4 implement SaveDataListener
