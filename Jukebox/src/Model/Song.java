@@ -5,12 +5,18 @@ Params: String Title, String Artist, int length(in seconds), String file
 */
 package Model;
 
+import java.io.Serializable;
 import java.util.GregorianCalendar;
 
 
 
-public class Song {
+public class Song implements Serializable{
 	
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6210088064526921787L;
 	private String songTitle;
 	private String songArtist;
 	private int songLength;

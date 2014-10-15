@@ -8,11 +8,16 @@
 
 package Model;
 
+import java.io.Serializable;
 import java.util.GregorianCalendar;
 
 
-public class JukeboxAccount {
+public class JukeboxAccount implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3545713454260034655L;
 	private String id;
 	private String password;
 	private int dailyPlayCount;

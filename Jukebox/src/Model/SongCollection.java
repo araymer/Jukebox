@@ -7,18 +7,17 @@
 
 package Model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
-import javax.swing.ListModel;
-import javax.swing.event.ListDataEvent;
-import javax.swing.event.ListDataListener;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
 
-public class SongCollection implements TableModel {
-	
+public class SongCollection implements TableModel, Serializable {
+
+	private static final long serialVersionUID = -6529535610908686714L;
 	private ArrayList<Song> songList;
 	private LinkedList<TableModelListener> tableModelListeners;
 	
@@ -32,6 +31,7 @@ public class SongCollection implements TableModel {
 		
 		}
 	
+
 	
 
 	//Lets our listeners know that something has changed.
