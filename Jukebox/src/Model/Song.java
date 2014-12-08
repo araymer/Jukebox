@@ -5,18 +5,12 @@ Params: String Title, String Artist, int length(in seconds), String file
 */
 package Model;
 
-import java.io.Serializable;
 import java.util.GregorianCalendar;
 
 
 
-public class Song implements Serializable{
+public class Song {
 	
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 6210088064526921787L;
 	private String songTitle;
 	private String songArtist;
 	private int songLength;
@@ -51,13 +45,17 @@ public class Song implements Serializable{
 	
 	//getter for fileName
 	public String getFileName(){
-		
+		if(canSelect()) {
+			setSongPlays();
 			return fileName;
+		}
 		
+		else
+			return null;
 	}
 	//either increments numberOfPlays or sets to 1 based on Date. Called from Jukebox controller
 	public void setSongPlays(){
-		if(dateLastPlayed.DAY_OF_YEAR == new GregorianCalendar().DAY_OF_YEAR && dateLastPlayed.YEAR == new GregorianCalendar().YEAR) {
+		if(dateLastPlayed.DAY_OF_YEAR == new GregorianCalendar().DAY_OF_YEAR) {
 		numberOfPlays++;
 		
 		}
@@ -71,7 +69,7 @@ public class Song implements Serializable{
 	
 	//Checks eligibility of song based on number of plays today.
 	public boolean canSelect(){
-		return (numberOfPlays <= 5);
+		return (numberOfPlays < 5);
 	}
 	
 	

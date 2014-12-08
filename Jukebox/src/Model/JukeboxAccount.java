@@ -8,17 +8,11 @@
 
 package Model;
 
-import java.io.Serializable;
-import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 
-public class JukeboxAccount implements Serializable {
+public class JukeboxAccount {
 	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -3545713454260034655L;
 	private String id;
 	private String password;
 	private int dailyPlayCount;
@@ -30,7 +24,6 @@ public class JukeboxAccount implements Serializable {
 		password = password1;
 		dailyPlayCount = 0;
 		secondsLeft = 90000;
-		dateLastPlayed = new GregorianCalendar(1, 1, 1);
 	}
 	//This sets the date to today's date. This will be called when a song is played. 
 	public void setDateLastPlayed(){ //sets the date last played from JukeBox
@@ -39,15 +32,14 @@ public class JukeboxAccount implements Serializable {
 	//Either increment dailyPlayCount (if last played is today) else reset back to 1.
 	public void addAccountPlays() {		
 		
-		if(dateLastPlayed.get(Calendar.DAY_OF_YEAR) == new GregorianCalendar().get(Calendar.DAY_OF_YEAR) && dateLastPlayed.get(Calendar.YEAR) == new GregorianCalendar().get(Calendar.YEAR)){  //if the day last plated
+		if(dateLastPlayed.compareTo(new GregorianCalendar()) == 0 ){  //if the day last plated
 			
 			dailyPlayCount++;
-			
 		}
 		else{
 			dailyPlayCount = 1;
 		}
-		setDateLastPlayed();
+		
 	}
 	//See if account can play a specific song. 
 	public boolean canSelect(int songLength) {
@@ -86,9 +78,5 @@ public class JukeboxAccount implements Serializable {
 				return true;
 			}
 			return false;
-		}
-		public String getPlays() {
-			Integer plays = 2-dailyPlayCount;
-			return (plays.toString());
 		}
 }

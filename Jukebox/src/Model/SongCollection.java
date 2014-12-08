@@ -7,40 +7,36 @@
 
 package Model;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
+import javax.swing.ListModel;
+import javax.swing.event.ListDataEvent;
+import javax.swing.event.ListDataListener;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
 
-public class SongCollection implements TableModel, Serializable {
-
-	private static final long serialVersionUID = -6529535610908686714L;
+public class SongCollection implements TableModel {
+	
 	private ArrayList<Song> songList;
-	private transient LinkedList<TableModelListener> tableModelListeners;
+	private LinkedList<TableModelListener> tableModelListeners;
 	
 	public SongCollection() {
 		
 		songList = new ArrayList<Song>();
+		songList.add(new Song("Blue Ridge Mountain Mist", "Jack Jackson", 38, "songfiles/BlueRidgeMountainMist.mp3"));
+		songList.add(new Song("Determined Tumbao", "Your Heinous, The Man", 20, "songfiles/DeterminedTumbao.mp3"));
+		songList.add(new Song("Flute", "A Flautist", 5, "songfiles/flute.aif"));
+		songList.add(new Song("Space Music", "Space", 6, "songfiles/spacemusic.au"));
+		songList.add(new Song("Swing Cheese", "Swing Cheese", 15, "songfiles/SwingCheese.mp3"));
+		songList.add(new Song("Ta-Da!", "Microsoft", 5, "songfiles/tada.wav"));
+		songList.add(new Song("Untameable Fire", "Guitars", 284, "songfiles/UntameableFire.mp3"));
 		tableModelListeners = new LinkedList<TableModelListener>();
-		songList.add(new Song("Winter in the Desert", "Aaron Raymer", 266, "songfiles/01 Winter in the Desert.mp3"));
-		songList.add(new Song("Have a Cigar", "Pink Floyd", 324, "songfiles/03 Have a Cigar.mp3"));
-		songList.add(new Song("Jesus Doesn't Want Me For A Sunbeam", "Nirvana", 276, "songfiles/03 Jesus Doesn't Want Me for a Sunbeam.mp3"));
-		songList.add(new Song("Wish You Were Here", "Pink Floyd", 323, "songfiles/04 Wish You Were Here.mp3"));
-		songList.add(new Song("On A Plain", "Nirvana", 227, "songfiles/08 On a Plain.mp3"));
-		songList.add(new Song("Lake of Fire", "Nirvana", 176, "songfiles/12 Lake of Fire.mp3"));
-		songList.add(new Song("Lost In The Supermarket", "The Clash", 229, "songfiles/08 - Lost In The Supermarket.mp3"));
-
 		
 		}
 	
-
-	public void addSong(Song s) {
-		songList.add(s);
-		changed();
-	}
+	
 
 	//Lets our listeners know that something has changed.
 	private void changed() {
@@ -105,12 +101,8 @@ public class SongCollection implements TableModel, Serializable {
 
 	@Override
 	public void addTableModelListener(TableModelListener l) {
-		if(tableModelListeners == null)
-			tableModelListeners = new LinkedList<TableModelListener>();
-		
 		tableModelListeners.add(l);
 		changed();
-		
 		
 	}
 
